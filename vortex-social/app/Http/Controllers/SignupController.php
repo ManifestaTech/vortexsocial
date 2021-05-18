@@ -25,7 +25,16 @@ class SignupController extends Controller
     public function billingAccount(Request $request, Plan $plan)
     {
         $user = Auth::user();
-        $user->billingAccount()->create(['plan_id' => $plan->id]);
+        // 
+        $billingAccount = $user->billingAccount;
+        
+        if($billingAccount)
+        {
+            $billingAccount->update(['plan_id' => $plan->id]);
+        } else {
+            $user->billingAccount()->create(['plan_id' => $plan->id]);
+        }
+
 
         return view('signup.billing')
             ->with('plan', $plan);
@@ -44,7 +53,7 @@ class SignupController extends Controller
         'last_name' => 'max:255',
         'zip' => 'max:255',
             ]);
-        $billingAccount = $user->billingAccount->first();
+        $billingAccount = $user->billingAccount;
         $billingAccount->first_name = $request->first_name;
         $billingAccount->last_name = $request->last_name;
         $billingAccount->zip = $request->zip;
