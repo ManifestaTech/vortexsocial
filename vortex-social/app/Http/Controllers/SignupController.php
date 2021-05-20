@@ -47,12 +47,12 @@ class SignupController extends Controller
        // TODO run Stripe on front end first
        
        $user = Auth::user();
-
+// TODO FIX VALIDATION
        $request->validate([
         'first_name' => 'max:255',
         'last_name' => 'max:255',
         'zip' => 'max:255',
-            ]);
+         ]);
         $billingAccount = $user->billingAccount;
         $billingAccount->first_name = $request->first_name;
         $billingAccount->last_name = $request->last_name;
@@ -68,8 +68,14 @@ class SignupController extends Controller
         $repo = new TwilioRepository();
 
         $availableNumbers = $repo->findNumber($request->contains);
+        $contains = strtoupper($request->contains);
+        // dd($availableNumbers);
+        $vanitizedNumbers = $repo->vanitize($contains,$availableNumbers);
+        // dd($vanityFormat);
 
         return view('signup.search')
+            ->with('contains', $contains)
+            ->with('vanitizedNumbers', $vanitizedNumbers)
             ->with('availableNumbers', $availableNumbers);
     }
 

@@ -12,6 +12,11 @@
                 </button>
             </form>
         </div>
+        
+            <h3>{{ $contains ? $contains : '' }}</h3>
+    
+
+        
         @if($availableNumbers->isEmpty())
             <h3>Search for a number</h3>
         @else
@@ -19,14 +24,16 @@
             @csrf
 
             <ul class="mt-10">
-                @foreach($availableNumbers as $key => $number)
-                    <li>
-                        <label>
-                            <input type="radio" name="number" value="{{ $key }}" class="mr-2 text-black border-2 border-gray-300 focus:border-gray-300 focus:ring-black"/>
-                            {{ $number }}
-                        </label>
-                    </li>
-                @endforeach
+                @if($vanitizedNumbers)
+                    @foreach($vanitizedNumbers as $vanitized)
+                        <li>
+                            <label>
+                                <input type="radio" name="number" value="" class="mr-2 text-black border-2 border-gray-300 focus:border-gray-300 focus:ring-black"/>
+                                {{ $vanitized }}
+                            </label>
+                        </li>
+                    @endforeach
+                @endif
             </ul>
             <button type="submit" class="focus:outline-none text-white text-xs py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 hover:shadow-lg">Select this Number</button>
 

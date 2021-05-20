@@ -6,6 +6,8 @@ namespace App\Repositories;
 use Stan;
 use Guru;
 use Twilio\Rest\Client;
+use Illuminate\Support\Str;
+
 
 
 class TwilioRepository
@@ -25,6 +27,8 @@ class TwilioRepository
         $collectedNumbers = collect($local);
 
         $formatted = $collectedNumbers->pluck('friendlyName', 'phoneNumber');
+
+        // $vanitized = $this->vanitize($contains, $formatted);
 
        return $formatted;
 
@@ -78,8 +82,73 @@ class TwilioRepository
         return;
     }
 
+    public function formatSearchResults($contains)
+    {
+        // 
+    }
 
+    public function vanitize($contains, $availableNumbers)
+    {
+        // build alpha array
+        // loop and vanitize available numbers in friendlyName format
 
+        // CHECK IF CONTAINS  HAS ALPHA
+        
+        $keypad = [
+            'A' => 2,
+            'B' => 2,
+            'C' => 2,
+            'D' => 3,
+            'E' => 3,
+            'F' => 3,
+            'G' => 4,
+            'H' => 4,
+            'I' => 4,
+            'J' => 5,
+            'K' => 5,
+            'L' => 5,
+            'M' => 6,
+            'N' => 6,
+            'O' => 6,
+            'P' => 7,
+            'Q' => 7,
+            'R' => 7,
+            'S' => 7,
+            'T' => 8,
+            'U' => 8,
+            'V' => 8,
+            'W' => 9,
+            'X' => 9,
+            'Y' => 9,
+            'Z' => 9,
+        ];
+        $vanitySplit = str_split($contains);
+        $vanityNumeric = collect();
+        // return($vanitySplit);
+
+        foreach($vanitySplit as $key => $split)
+        {
+            if(!$split) continue;
+
+           $result = $keypad[$split];
+           $vanityNumeric->push($result);
+        }
+
+        $vanitized = collect();
+
+        if($vanityNumeric)
+        {
+            $vanityNumeric = $vanityNumeric->implode('');
+
+            foreach($availableNumbers as $friendly => $number)
+            {
+                $vanitizedNumber = Str::replace($vanityNumeric, $contains, $friendly);
+                $vanitized->push($vanitizedNumber);
+    
+            }
+        }
+        return $vanitized;
+    }
 
 
 
