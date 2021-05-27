@@ -25,7 +25,7 @@ class SignupController extends Controller
     public function billingAccount(Request $request, Plan $plan)
     {
         $user = Auth::user();
-        // 
+        
         $billingAccount = $user->billingAccount;
         
         if($billingAccount)
@@ -35,10 +35,8 @@ class SignupController extends Controller
             $user->billingAccount()->create(['plan_id' => $plan->id]);
         }
 
-
         return view('signup.billing')
             ->with('plan', $plan);
-
     }
 
 

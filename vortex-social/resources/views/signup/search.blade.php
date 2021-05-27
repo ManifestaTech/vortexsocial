@@ -12,8 +12,9 @@
                 </button>
             </form>
         </div>
-        
-            <h3>{{ $contains ? $contains : '' }}</h3>
+            <p class="text-center mt-6 font-thin text-xs">YOU SEARCHED FOR:</p>
+            <h1 class="m-4 mt-0 text-center font-bold text-xl">{{ $contains ? $contains : '' }}</h1>
+
     
 
         
@@ -26,16 +27,20 @@
             <ul class="mt-10">
                 @if($vanitizedNumbers)
                     @foreach($vanitizedNumbers as $vanitized)
-                        <li>
+                        <li class="m-2">
                             <label>
-                                <input type="radio" name="number" value="" class="mr-2 text-black border-2 border-gray-300 focus:border-gray-300 focus:ring-black"/>
+                                <input type="radio" name="number" value="" class="mr-2 font-semibold text-black border-2 border-gray-300 focus:border-gray-300 focus:ring-black"/>
                                 {{ $vanitized }}
                             </label>
                         </li>
                     @endforeach
                 @endif
             </ul>
-            <button type="submit" class="focus:outline-none text-white text-xs py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 hover:shadow-lg">Select this Number</button>
+            <button type="submit" class="rounded-full text-white 
+        bg-purple-400 hover:bg-purple-500 duration-300 
+        text-md font-bold 
+        mr-1 md:mr-2 mb-2 px-2 md:px-4 py-1 
+        opacity-90 hover:opacity-100 text-center">Select this Number</button>
 
         </form>
            
